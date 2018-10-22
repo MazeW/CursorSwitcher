@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CursorSwitcher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("You can find more information about this program on our GitHub page. \n https://github.com/MazeW/CursorSwitcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Maze")]
 [assembly: AssemblyProduct("CursorSwitcher")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright © Maze 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

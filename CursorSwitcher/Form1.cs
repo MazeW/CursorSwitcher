@@ -118,15 +118,15 @@ namespace CursorSwitcher
                 MessageBox.Show("Select a cursor!","lol",MessageBoxButtons.OK);
                 return;
             }
-            DialogResult result = MessageBox.Show($"This will change {SelectedSkinName}'s cursor to {SelectedCursor}! Are you sure? \n (your current cursor will be backed up as cursor_backup.png)", "Warning",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            DialogResult result = MessageBox.Show($"This will change {SelectedSkinName}'s cursor to {SelectedCursor}! Are you sure? \n (your current cursor will be saved as cursor_backup.png)", "Are you really sure?",
+            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == DialogResult.OK)
             {
                 try
                 {
                     File.Copy($"{SelectedSkin}\\cursor.png", $"{SelectedSkin}\\cursor_backup.png", true);
                     File.Copy(SelectedCursor, SelectedSkin + "\\cursor.png", true);
-                    MessageBox.Show("Cursor changed! Press CTRL + SHIT + ALT + S in-game to refresh skin!","YEET",MessageBoxButtons.OK);
+                    MessageBox.Show("Press CTRL + SHIT + ALT + S in-game to see changes!", "Cursor changed!", MessageBoxButtons.OK);
                 } catch (Exception err)
                 {
                     MessageBox.Show($"OOF! {err.Message}");
@@ -136,6 +136,20 @@ namespace CursorSwitcher
             {
                 Debug.WriteLine("didnt copy");
             } 
+        }
+
+        private void setOsuDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("yeet nigga");
+            setDir ss = new setDir();
+            ss.Show();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            aboutForm af = new aboutForm();
+            af.ShowDialog();
         }
     }
 }

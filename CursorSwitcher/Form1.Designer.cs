@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonChange = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonTrail = new System.Windows.Forms.Button();
             this.labelSkinSel = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -53,15 +53,15 @@
             this.buttonChange.UseVisualStyleBackColor = false;
             this.buttonChange.Click += new System.EventHandler(this.buttonChange_Click);
             // 
-            // button2
+            // buttonTrail
             // 
-            this.button2.Location = new System.Drawing.Point(292, 467);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Reset cursor";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonTrail.Location = new System.Drawing.Point(292, 467);
+            this.buttonTrail.Name = "buttonTrail";
+            this.buttonTrail.Size = new System.Drawing.Size(98, 23);
+            this.buttonTrail.TabIndex = 2;
+            this.buttonTrail.Text = "Change trail";
+            this.buttonTrail.UseVisualStyleBackColor = true;
+            this.buttonTrail.Click += new System.EventHandler(this.buttonTrail_Click);
             // 
             // labelSkinSel
             // 
@@ -149,7 +149,7 @@
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.labelSkinSel);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonTrail);
             this.Controls.Add(this.buttonChange);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -167,8 +167,7 @@
 
         #endregion
         private System.Windows.Forms.Button buttonChange;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonTrail;
         private System.Windows.Forms.Label labelSkinSel;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ListView listView1;

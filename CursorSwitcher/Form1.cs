@@ -11,56 +11,74 @@ namespace CursorSwitcher
     {
 
         public Form1()
-        {           
+        {
             InitializeComponent();
             this.Text = "osu! cursor switcher";
-            string[] directories = Directory.GetDirectories(@"C:\Users\Maze\Desktop\skins");
-            Dictionary<string, string> boxitem = new Dictionary<string, string>();
-            if (directories.Length < 1)
+            Skins();
+
+        }
+        public void Skins()
+        {
+            if (!File.Exists(Properties.Settings.Default.osuLocation + @"\osu!.exe"))
             {
-                boxitem.Add("0","No skins found!");
+                setDir form = new setDir();
+                form.ShowDialog();
             }
             try
             {
-                for (int i = 0; i < directories.Length; i++)
+                string[] directories = Directory.GetDirectories(Properties.Settings.Default.osuLocation + @"\skins");
+                Dictionary<string, string> boxitem = new Dictionary<string, string>();
+                if (directories.Length < 1)
                 {
-                    boxitem.Add(directories[i], new DirectoryInfo(directories[i]).Name);
+                    boxitem.Add("0", "No skins found!");
                 }
-            } catch(Exception e)
-            {
-                MessageBox.Show(e.Message);
+                try
+                {
+                    for (int i = 0; i < directories.Length; i++)
+                    {
+                        boxitem.Add(directories[i], new DirectoryInfo(directories[i]).Name);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                comboBox1.DataSource = new BindingSource(boxitem, null);
+                comboBox1.DisplayMember = "Value";
+                comboBox1.ValueMember = "Key";
+                Cursors();
             }
-            comboBox1.DataSource = new BindingSource(boxitem, null);
-            comboBox1.DisplayMember = "Value";
-            comboBox1.ValueMember = "Key";
-            Cursors();
+            catch (Exception err)
+            {
+                MessageBox.Show($"Error fetching skins {err.Message}");
+            }
         }
-
         private void Cursors()
         {
             ImageList img = new ImageList();
             img.ImageSize = new Size(89, 89);
-            string[] items = Directory.GetFiles(@"C:\Users\Maze\Desktop\cursors");
+            string[] items = Directory.GetDirectories(Properties.Settings.Default.osuLocation + @"\skins");
             if(items.Length < 1)
             {
-                listView1.Items.Add("No cursors found!",0);
+                listView1.Items.Add("No skins found!",0);
                 return;
             }
             try
             {
                 for (int i = 0; i < items.Length; i++)
                 {
-                    Debug.WriteLine($"there's {new FileInfo(items[i])}");
-                    img.Images.Add(Image.FromFile(items[i]));
-                    listView1.Items.Add(items[i], i);
+                    if (File.Exists(items[i] + @"\cursor.png"))
+                    {
+                        img.Images.Add(Image.FromFile(items[i] + @"\cursor.png"));
+                        listView1.Items.Add(items[i], i);
+                    }
                 }
             } catch(Exception e)
             {
                 MessageBox.Show(e.Message);
             }
             listView1.SmallImageList = img;
-
-
+ 
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -68,11 +86,6 @@ namespace CursorSwitcher
 
             listView1.Columns.Add("Cursors", 150);
             listView1.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
-
-        }
-
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
 
         }
         string SelectedSkin { get; set; }
@@ -86,15 +99,11 @@ namespace CursorSwitcher
             Debug.WriteLine($"[skin selection value:{value}] [key:{key}]");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonTrail_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
         string SelectedCursor { get; set; }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -125,7 +134,7 @@ namespace CursorSwitcher
                 try
                 {
                     File.Copy($"{SelectedSkin}\\cursor.png", $"{SelectedSkin}\\cursor_backup.png", true);
-                    File.Copy(SelectedCursor, SelectedSkin + "\\cursor.png", true);
+                    File.Copy(SelectedCursor + "\\cursor.png", SelectedSkin + "\\cursor.png", true);
                     MessageBox.Show("Press CTRL + SHIT + ALT + S in-game to see changes!", "Cursor changed!", MessageBoxButtons.OK);
                 } catch (Exception err)
                 {
@@ -140,16 +149,15 @@ namespace CursorSwitcher
 
         private void setOsuDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("yeet nigga");
-            setDir ss = new setDir();
-            ss.Show();
+            setDir form = new setDir();
+            form.ShowDialog();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            aboutForm af = new aboutForm();
-            af.ShowDialog();
+            aboutForm form = new aboutForm();
+            form.ShowDialog();
         }
     }
 }

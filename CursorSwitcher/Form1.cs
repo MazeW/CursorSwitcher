@@ -53,24 +53,54 @@ namespace CursorSwitcher
                 MessageBox.Show($"Error fetching skins {err.Message}");
             }
         }
-        private void Cursors()
+        string dir { get; set; }
+        string[] items { get; set; }
+        public void Cursors()
         {
             ImageList img = new ImageList();
-            img.ImageSize = new Size(89, 89);
-            string[] items = Directory.GetDirectories(Properties.Settings.Default.osuLocation + @"\skins");
-            if(items.Length < 1)
+            img.ImageSize = new Size(128, 128);
+             // Path.IsPathRooted(Properties.Settings.Default.cursorLocation)
+            if (Properties.Settings.Default.boxChecked == true && Path.IsPathRooted(Properties.Settings.Default.cursorLocation) == true)
             {
-                listView1.Items.Add("No skins found!",0);
+                dir = Properties.Settings.Default.cursorLocation;
+                items = Directory.GetFiles(dir);
+            } 
+            else
+            {
+                dir = Properties.Settings.Default.osuLocation + @"\skins";
+                items = Directory.GetDirectories(dir);
+            }
+            if(Properties.Settings.Default.boxChecked == true)
+            {
+
+            }
+            else if(items.Length < 1)
+            {
+                listView1.Items.Add("No cursors found!",0);
                 return;
             }
             try
             {
                 for (int i = 0; i < items.Length; i++)
                 {
-                    if (File.Exists(items[i] + @"\cursor.png"))
+
+                    if (Properties.Settings.Default.boxChecked == true && Path.IsPathRooted(Properties.Settings.Default.cursorLocation) == true)
                     {
-                        img.Images.Add(Image.FromFile(items[i] + @"\cursor.png"));
+                        img.Images.Add(Image.FromFile(items[i]));
                         listView1.Items.Add(items[i], i);
+                    }
+                    else
+                    {
+                        if (File.Exists(items[i] + @"\cursor.png"))
+                        {
+                            img.Images.Add(Image.FromFile(items[i] + @"\cursor.png"));
+                        } 
+                        else
+                        {
+                            img.Images.Add(Properties.Resources.nope);
+                        }
+                            listView1.Items.Add(items[i], i);
+
                     }
                 }
             } catch(Exception e)
@@ -134,7 +164,14 @@ namespace CursorSwitcher
                 try
                 {
                     File.Copy($"{SelectedSkin}\\cursor.png", $"{SelectedSkin}\\cursor_backup.png", true);
-                    File.Copy(SelectedCursor + "\\cursor.png", SelectedSkin + "\\cursor.png", true);
+                    if (Properties.Settings.Default.boxChecked == true && Path.IsPathRooted(Properties.Settings.Default.cursorLocation) == true)
+                    {
+                        File.Copy(SelectedCursor, SelectedSkin + "\\cursor.png", true);
+                    } 
+                    else
+                    {
+                        File.Copy(SelectedCursor + "\\cursor.png", SelectedSkin + "\\cursor.png", true);
+                    }
                     MessageBox.Show("Press CTRL + SHIT + ALT + S in-game to see changes!", "Cursor changed!", MessageBoxButtons.OK);
                 } catch (Exception err)
                 {

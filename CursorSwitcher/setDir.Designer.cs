@@ -33,6 +33,10 @@
             this.osuDirBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBoxCustom = new System.Windows.Forms.CheckBox();
+            this.cursorDir = new System.Windows.Forms.TextBox();
+            this.buttonCursorDir = new System.Windows.Forms.Button();
+            this.cursorBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // button1
@@ -55,7 +59,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(322, 95);
+            this.button2.Location = new System.Drawing.Point(322, 156);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -73,11 +77,46 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Select osu! location";
             // 
+            // checkBoxCustom
+            // 
+            this.checkBoxCustom.AutoSize = true;
+            this.checkBoxCustom.Location = new System.Drawing.Point(26, 95);
+            this.checkBoxCustom.Name = "checkBoxCustom";
+            this.checkBoxCustom.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxCustom.TabIndex = 4;
+            this.checkBoxCustom.Text = "Custom cursor directory";
+            this.checkBoxCustom.UseVisualStyleBackColor = true;
+            this.checkBoxCustom.CheckedChanged += new System.EventHandler(this.checkBoxCustom_CheckedChanged);
+            // 
+            // cursorDir
+            // 
+            this.cursorDir.Location = new System.Drawing.Point(26, 118);
+            this.cursorDir.Name = "cursorDir";
+            this.cursorDir.Size = new System.Drawing.Size(290, 20);
+            this.cursorDir.TabIndex = 5;
+            // 
+            // buttonCursorDir
+            // 
+            this.buttonCursorDir.Location = new System.Drawing.Point(323, 118);
+            this.buttonCursorDir.Name = "buttonCursorDir";
+            this.buttonCursorDir.Size = new System.Drawing.Size(75, 23);
+            this.buttonCursorDir.TabIndex = 6;
+            this.buttonCursorDir.Text = "Browse";
+            this.buttonCursorDir.UseVisualStyleBackColor = true;
+            this.buttonCursorDir.Click += new System.EventHandler(this.buttonCursorDir_Click);
+            // 
+            // cursorBrowser
+            // 
+            this.cursorBrowser.ShowNewFolderButton = false;
+            // 
             // setDir
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 141);
+            this.ClientSize = new System.Drawing.Size(406, 191);
+            this.Controls.Add(this.buttonCursorDir);
+            this.Controls.Add(this.cursorDir);
+            this.Controls.Add(this.checkBoxCustom);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.osuDirBox);
@@ -99,5 +138,9 @@
         private System.Windows.Forms.TextBox osuDirBox;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBoxCustom;
+        private System.Windows.Forms.TextBox cursorDir;
+        private System.Windows.Forms.Button buttonCursorDir;
+        private System.Windows.Forms.FolderBrowserDialog cursorBrowser;
     }
 }

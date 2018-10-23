@@ -34,5 +34,29 @@ namespace CursorSwitcher.Properties {
                 this["osuLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool boxChecked {
+            get {
+                return ((bool)(this["boxChecked"]));
+            }
+            set {
+                this["boxChecked"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Please select folder containing cursor files")]
+        public string cursorLocation {
+            get {
+                return ((string)(this["cursorLocation"]));
+            }
+            set {
+                this["cursorLocation"] = value;
+            }
+        }
     }
 }

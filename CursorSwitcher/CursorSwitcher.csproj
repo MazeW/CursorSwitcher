@@ -104,6 +104,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="setDir.resx">
       <DependentUpon>setDir.cs</DependentUpon>
@@ -126,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="applogo.ico" />
+    <None Include="Resources\Image1.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">

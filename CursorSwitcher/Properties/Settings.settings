@@ -5,5 +5,11 @@
     <Setting Name="osuLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">this will get replaced</Value>
     </Setting>
+    <Setting Name="boxChecked" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="cursorLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Please select folder containing cursor files</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

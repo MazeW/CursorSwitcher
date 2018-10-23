@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace CursorSwitcher
 {
-    public partial class setDir : Form
+    public partial class SetDirectory : Form
     {
-        public setDir()
+        public SetDirectory()
         {
             InitializeComponent();
             this.Text = "Please select your osu! directory.";
@@ -67,7 +67,7 @@ namespace CursorSwitcher
             Properties.Settings.Default.Save();
             Debug.WriteLine($"Saving dir test: ${Properties.Settings.Default.osuLocation}");
             this.Close();
-            Form1 reload = new Form1();
+            OsuCursorSwitcher reload = new OsuCursorSwitcher();
             reload.Skins();
 
         }

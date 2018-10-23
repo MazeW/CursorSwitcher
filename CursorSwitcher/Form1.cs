@@ -3,113 +3,106 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CursorSwitcher
 {
-    public partial class Form1 : Form
+    public partial class OsuCursorSwitcher : Form
     {
+        private string SelectedSkin { get; set; }
+        private string SelectedSkinName { get; set; }
+        private string SelectedCursor { get; set; }
+        private Dictionary<string, string> SkinsFolder { get; set; }
+        private bool IsCustomCursorFolder { get => Properties.Settings.Default.boxChecked && Path.IsPathRooted(Properties.Settings.Default.cursorLocation); }
+        private Dictionary<int, string> listIndexToPath = new Dictionary<int, string>();
 
-        public Form1()
+        public OsuCursorSwitcher()
         {
             InitializeComponent();
-            this.Text = "osu! cursor switcher";
+            Text = "osu! cursor switcher";
             Skins();
-
         }
+
         public void Skins()
         {
-            if (!File.Exists(Properties.Settings.Default.osuLocation + @"\osu!.exe"))
+            if (!Directory.Exists(Properties.Settings.Default.osuLocation))
             {
-                setDir form = new setDir();
-                form.ShowDialog();
+                SetDirectory directoryForm = new SetDirectory();
+                directoryForm.ShowDialog();
             }
-            try
-            {
-                string[] directories = Directory.GetDirectories(Properties.Settings.Default.osuLocation + @"\skins");
-                Dictionary<string, string> boxitem = new Dictionary<string, string>();
-                if (directories.Length < 1)
-                {
-                    boxitem.Add("0", "No skins found!");
-                }
-                try
-                {
-                    for (int i = 0; i < directories.Length; i++)
-                    {
-                        boxitem.Add(directories[i], new DirectoryInfo(directories[i]).Name);
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-                comboBox1.DataSource = new BindingSource(boxitem, null);
-                comboBox1.DisplayMember = "Value";
-                comboBox1.ValueMember = "Key";
-                Cursors();
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show($"Error fetching skins {err.Message}");
-            }
-        }
-        string dir { get; set; }
-        string[] items { get; set; }
-        public void Cursors()
-        {
-            ImageList img = new ImageList();
-            img.ImageSize = new Size(128, 128);
-             // Path.IsPathRooted(Properties.Settings.Default.cursorLocation)
-            if (Properties.Settings.Default.boxChecked == true && Path.IsPathRooted(Properties.Settings.Default.cursorLocation) == true)
-            {
-                dir = Properties.Settings.Default.cursorLocation;
-                items = Directory.GetFiles(dir);
-            } 
-            else
-            {
-                dir = Properties.Settings.Default.osuLocation + @"\skins";
-                items = Directory.GetDirectories(dir);
-            }
-            if(Properties.Settings.Default.boxChecked == true)
-            {
 
-            }
-            else if(items.Length < 1)
+            var skinDirectories = Directory.GetDirectories(Path.Combine(Properties.Settings.Default.osuLocation, "skins"));
+
+            SkinsFolder = new Dictionary<string, string>();
+
+            if (!skinDirectories.Any())
+                SkinsFolder.Add("0", "No skins found!");
+
+            foreach (var x in skinDirectories)
             {
-                listView1.Items.Add("No cursors found!",0);
+                var iniPath = Path.Combine(x, "skin.ini");
+
+                if (!File.Exists(iniPath))
+                    continue;
+
+                string[] lines;
+
+                try { lines = File.ReadAllLines(iniPath); }
+                catch (Exception) { continue; }
+
+                var nameLine = lines.FirstOrDefault(y => y.StartsWith("Name:"));
+
+                if (nameLine == null)
+                    continue;
+
+                SkinsFolder.Add(x, nameLine.Split(':')[1].Trim());
+            }
+
+            comboBox1.DataSource = new BindingSource(SkinsFolder, null);
+            comboBox1.DisplayMember = "Value";
+            comboBox1.ValueMember = "Key";
+
+            PopulateCursors();
+        }
+
+        public void PopulateCursors()
+        {
+            ImageList imageList = new ImageList
+            {
+                ImageSize = new Size(128, 128)
+            };
+
+            listIndexToPath.Clear();
+
+            var items = IsCustomCursorFolder ? Directory.GetFiles(Properties.Settings.Default.cursorLocation).Where(x => x.EndsWith(".png")).ToArray() 
+                : SkinsFolder.Select(x => x.Key).ToArray();
+
+            if (!items.Any())
+            {
+                listView1.Items.Add("No cursors found!", 0);
                 return;
             }
-            try
+
+            for (int i = 0; i < items.Length; i++)
             {
-                for (int i = 0; i < items.Length; i++)
+                if (IsCustomCursorFolder)
                 {
-
-                    if (Properties.Settings.Default.boxChecked == true && Path.IsPathRooted(Properties.Settings.Default.cursorLocation) == true)
-                    {
-                        img.Images.Add(Image.FromFile(items[i]));
-                        listView1.Items.Add(items[i], i);
-                    }
-                    else
-                    {
-                        if (File.Exists(items[i] + @"\cursor.png"))
-                        {
-                            img.Images.Add(Image.FromFile(items[i] + @"\cursor.png"));
-                        } 
-                        else
-                        {
-                            img.Images.Add(Properties.Resources.nope);
-                        }
-                            listView1.Items.Add(items[i], i);
-
-                    }
+                    imageList.Images.Add(Image.FromFile(items[i]));
                 }
-            } catch(Exception e)
-            {
-                MessageBox.Show(e.Message);
+                else
+                {
+                    var cursorPath = items[i] + @"\cursor.png";
+                    imageList.Images.Add(File.Exists(cursorPath) ? Image.FromFile(cursorPath) :  Properties.Resources.nope);
+                }
+
+                listView1.Items.Add(IsCustomCursorFolder ? Path.GetFileName(items[i]) : SkinsFolder[items[i]], i);
+                listIndexToPath.Add(i, items[i]);
             }
-            listView1.SmallImageList = img;
- 
+
+            listView1.SmallImageList = imageList;
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             listView1.View = View.Details;
@@ -118,9 +111,8 @@ namespace CursorSwitcher
             listView1.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.HeaderSize);
 
         }
-        string SelectedSkin { get; set; }
-        string SelectedSkinName { get; set; }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string key = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Key;
             string value = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Value;
@@ -129,68 +121,62 @@ namespace CursorSwitcher
             Debug.WriteLine($"[skin selection value:{value}] [key:{key}]");
         }
 
-        private void buttonTrail_Click(object sender, EventArgs e)
+        private void ButtonTrail_Click(object sender, EventArgs e)
         {
 
         }
 
-        string SelectedCursor { get; set; }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedIndices.Count <= 0)
-            {
                 return;
-            }
-            int intselectedindex = listView1.SelectedIndices[0];
-            if (intselectedindex >= 0)
-            {
-                SelectedCursor = listView1.Items[intselectedindex].Text;
-            }
+
+            int selectedIndex = listView1.SelectedIndices[0];
+
+            if (selectedIndex >= 0)
+                SelectedCursor = listIndexToPath[selectedIndex];
         }
 
-        private void buttonChange_Click(object sender, EventArgs e)
+        private void ButtonChange_Click(object sender, EventArgs e)
         {
             Debug.WriteLine($"You have selected skin: {SelectedSkin} and cursor {SelectedCursor}");
-            if(string.IsNullOrEmpty(SelectedCursor))
+
+            if (String.IsNullOrEmpty(SelectedCursor))
             {
-                MessageBox.Show("Select a cursor!","lol",MessageBoxButtons.OK);
+                MessageBox.Show("Select a cursor!", "lol", MessageBoxButtons.OK);
                 return;
             }
-            DialogResult result = MessageBox.Show($"This will change {SelectedSkinName}'s cursor to {SelectedCursor}! Are you sure? \n (your current cursor will be saved as cursor_backup.png)", "Are you really sure?",
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            DialogResult result = MessageBox.Show($"This will change {SelectedSkinName}'s cursor to {SelectedCursor}! Are you sure?\n(Your current cursor will be saved as cursor_backup.png)", "Are you really sure?",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
             if (result == DialogResult.OK)
             {
                 try
                 {
                     File.Copy($"{SelectedSkin}\\cursor.png", $"{SelectedSkin}\\cursor_backup.png", true);
-                    if (Properties.Settings.Default.boxChecked == true && Path.IsPathRooted(Properties.Settings.Default.cursorLocation) == true)
-                    {
+
+                    if (IsCustomCursorFolder)
                         File.Copy(SelectedCursor, SelectedSkin + "\\cursor.png", true);
-                    } 
                     else
-                    {
                         File.Copy(SelectedCursor + "\\cursor.png", SelectedSkin + "\\cursor.png", true);
-                    }
+
                     MessageBox.Show("Press CTRL + SHIT + ALT + S in-game to see changes!", "Cursor changed!", MessageBoxButtons.OK);
-                } catch (Exception err)
+                }
+                catch (Exception err)
                 {
                     MessageBox.Show($"OOF! {err.Message}");
                 }
-                }
-            else if (result == DialogResult.Cancel)
-            {
-                Debug.WriteLine("didnt copy");
-            } 
+            }
         }
 
-        private void setOsuDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SetOsuDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setDir form = new setDir();
+            SetDirectory form = new SetDirectory();
             form.ShowDialog();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             aboutForm form = new aboutForm();

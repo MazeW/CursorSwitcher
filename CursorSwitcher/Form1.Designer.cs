@@ -1,6 +1,6 @@
 ﻿namespace CursorSwitcher
 {
-    partial class Form1
+    partial class OsuCursorSwitcher
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OsuCursorSwitcher));
             this.buttonChange = new System.Windows.Forms.Button();
             this.buttonTrail = new System.Windows.Forms.Button();
             this.labelSkinSel = new System.Windows.Forms.Label();
@@ -51,7 +51,7 @@
             this.buttonChange.TabIndex = 1;
             this.buttonChange.Text = "Change cursor";
             this.buttonChange.UseVisualStyleBackColor = false;
-            this.buttonChange.Click += new System.EventHandler(this.buttonChange_Click);
+            this.buttonChange.Click += new System.EventHandler(this.ButtonChange_Click);
             // 
             // buttonTrail
             // 
@@ -61,7 +61,7 @@
             this.buttonTrail.TabIndex = 2;
             this.buttonTrail.Text = "Change trail";
             this.buttonTrail.UseVisualStyleBackColor = true;
-            this.buttonTrail.Click += new System.EventHandler(this.buttonTrail_Click);
+            this.buttonTrail.Click += new System.EventHandler(this.ButtonTrail_Click);
             // 
             // labelSkinSel
             // 
@@ -83,7 +83,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(312, 21);
             this.comboBox1.TabIndex = 4;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // listView1
             // 
@@ -97,7 +97,7 @@
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
             // 
             // menuStrip1
             // 
@@ -124,7 +124,7 @@
             this.setOsuDirectoryToolStripMenuItem.Name = "setOsuDirectoryToolStripMenuItem";
             this.setOsuDirectoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setOsuDirectoryToolStripMenuItem.Text = "Set osu directory";
-            this.setOsuDirectoryToolStripMenuItem.Click += new System.EventHandler(this.setOsuDirectoryToolStripMenuItem_Click);
+            this.setOsuDirectoryToolStripMenuItem.Click += new System.EventHandler(this.SetOsuDirectoryToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -139,7 +139,7 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // Form1
             // 

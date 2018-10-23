@@ -1,6 +1,6 @@
 ﻿namespace CursorSwitcher
 {
-    partial class setDir
+    partial class SetDirectory
     {
         /// <summary>
         /// Required designer variable.
@@ -109,7 +109,7 @@
             // 
             this.cursorBrowser.ShowNewFolderButton = false;
             // 
-            // setDir
+            // SetDirectory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -124,8 +124,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "setDir";
-            this.Text = "setDir";
+            this.Name = "SetDirectory";
+            this.Text = "SetDirectory";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -70,7 +70,8 @@ namespace CursorSwitcher
         {
             ImageList imageList = new ImageList
             {
-                ImageSize = new Size(128, 128)
+                ColorDepth = ColorDepth.Depth32Bit,
+                ImageSize = new Size(90, 90)
             };
 
             listIndexToPath.Clear();

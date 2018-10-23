@@ -90,8 +90,10 @@
             this.listView1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.listView1.FullRowSelect = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.Location = new System.Drawing.Point(6, 50);
+            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(384, 411);
             this.listView1.TabIndex = 5;
@@ -122,7 +124,7 @@
             // setOsuDirectoryToolStripMenuItem
             // 
             this.setOsuDirectoryToolStripMenuItem.Name = "setOsuDirectoryToolStripMenuItem";
-            this.setOsuDirectoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setOsuDirectoryToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.setOsuDirectoryToolStripMenuItem.Text = "Set osu directory";
             this.setOsuDirectoryToolStripMenuItem.Click += new System.EventHandler(this.SetOsuDirectoryToolStripMenuItem_Click);
             // 
@@ -137,11 +139,11 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // Form1
+            // OsuCursorSwitcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -155,7 +157,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "OsuCursorSwitcher";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);

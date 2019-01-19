@@ -1,6 +1,8 @@
 # CursorSwitcher
 
-This isn't finished yet, so don't download.
+This isn't finished yet, so don't bother downloading.
+
+![screenshot](https://i.imgur.com/yYZlJwR.png)
 
 
 Download compiled version:
